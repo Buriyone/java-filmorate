@@ -20,6 +20,7 @@ import java.util.Map;
 public class FilmController {
 	private final Map<Integer, Film> films = new HashMap<>();
 	private int id = 1;
+	
 	@PostMapping(value = "/films")
 	public Film addFilm(@Valid @RequestBody Film film) {
 		log.info("Получен запрос на добавление фильма.");
