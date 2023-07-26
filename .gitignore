@@ -12,7 +12,7 @@ out/
 target/
 .mvn
 mvnw
-mvnw.
+mvnw.cmd
 filmorate.iml
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
