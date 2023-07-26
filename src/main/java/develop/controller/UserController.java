@@ -32,13 +32,11 @@ public class UserController {
 					throw new ValidationException("пользователь с таким email уже зарегистрирован.");
 				}
 			}
-			
 			if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()) {
 				log.debug("Пользователь {} не указал имя при регистрации.", user.getLogin());
 				log.info("Имя пользователя {} будет изменено на логин", user.getLogin());
 				user = user.toBuilder().name(user.getLogin()).build();
 			}
-			
 			user.setId(id);
 			users.put(id, user);
 			log.info("Пользователь {} успешно зарегистрирован с id: {}.", user.getLogin(), id);

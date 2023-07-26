@@ -41,14 +41,12 @@ public class FilmController {
 		log.info("Получен запрос на обновление фильма.");
 		try {
 			filmValidation(film);
-			
 			if (film.getId() == 0) {
 				throw new NotFoundException("сперва необходимо добавить фильм в приложение.");
 			} else if (!films.containsKey(film.getId())) {
 				throw new NotFoundException("фильм не обнаружен.");
 			} else {
 				films.put(film.getId(), film);
-				
 				log.info("Фильм {} успешно обновлен.", film.getName());
 			}
 		} catch (ValidationException e) {
