@@ -20,20 +20,14 @@ import java.util.Map;
 public class FilmController {
 	private final Map<Integer, Film> films = new HashMap<>();
 	private int id = 1;
-	
 	@PostMapping(value = "/films")
 	public Film addFilm(@Valid @RequestBody Film film) {
 		log.info("Получен запрос на добавление фильма.");
-		
 		try {
 			filmValidation(film);
-			
 			film.setId(id);
-			
 			films.put(id, film);
-			
 			log.info("Фильм {} успешно добавлен с id: {}.", film.getName(), id);
-			
 			id++;
 		} catch (ValidationException e) {
 			log.info("Ошибка валидации. Причина: {}", e.getMessage());
@@ -45,7 +39,6 @@ public class FilmController {
 	@PutMapping(value = "/films")
 	public Film updateFilm(@Valid @RequestBody Film film) {
 		log.info("Получен запрос на обновление фильма.");
-		
 		try {
 			filmValidation(film);
 			

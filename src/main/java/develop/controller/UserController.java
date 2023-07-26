@@ -20,14 +20,11 @@ import java.util.Map;
 public class UserController {
 	private final Map<Integer, User> users = new HashMap<>();
 	private int id = 1;
-	
 	@PostMapping(value = "/users")
 	public User addUser(@RequestBody @Valid User user) {
 		log.info("Получен запрос на регистрацию пользователя.");
-		
 		try {
 			userValidation(user);
-			
 			for (User u : users.values()) {
 				if (u.getLogin().equals(user.getLogin())) {
 					throw new ValidationException("пользователь с таким логином уже зарегистрирован.");
@@ -39,16 +36,12 @@ public class UserController {
 			if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()) {
 				log.debug("Пользователь {} не указал имя при регистрации.", user.getLogin());
 				log.info("Имя пользователя {} будет изменено на логин", user.getLogin());
-				
 				user = user.toBuilder().name(user.getLogin()).build();
 			}
 			
 			user.setId(id);
-			
 			users.put(id, user);
-			
 			log.info("Пользователь {} успешно зарегистрирован с id: {}.", user.getLogin(), id);
-			
 			id++;
 		} catch (ValidationException e) {
 			log.info("Ошибка валидации. Причина: {}", e.getMessage());
@@ -60,10 +53,8 @@ public class UserController {
 	@PutMapping(value = "/users")
 	public User updateUser(@RequestBody @Valid User user) {
 		log.info("Получен запрос на обновление данных пользователя.");
-		
 		try {
 			userValidation(user);
-			
 			if (user.getId() == 0) {
 				throw new NotFoundException("пользователь не зарегистрирован.");
 			} else if (!users.containsKey(user.getId())) {
@@ -72,12 +63,9 @@ public class UserController {
 				if (user.getName().isEmpty() || user.getName().isBlank()) {
 					log.debug("Пользователь {} скрыл имя.", user.getLogin());
 					log.info("Имя пользователя {} будет изменено на логин", user.getLogin());
-					
 					user = user.toBuilder().name(user.getLogin()).build();
 				}
-				
 				users.put(user.getId(), user);
-				
 				log.info("Данные пользователя {} были обновлены.", user.getLogin());
 			}
 		} catch (ValidationException e) {
