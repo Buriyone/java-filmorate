@@ -20,6 +20,7 @@ import java.util.Map;
 public class UserController {
 	private final Map<Integer, User> users = new HashMap<>();
 	private int id = 1;
+	
 	@PostMapping(value = "/users")
 	public User addUser(@RequestBody @Valid User user) {
 		log.info("Получен запрос на регистрацию пользователя.");
@@ -47,7 +48,6 @@ public class UserController {
 		}
 		return user;
 	}
-	
 	@PutMapping(value = "/users")
 	public User updateUser(@RequestBody @Valid User user) {
 		log.info("Получен запрос на обновление данных пользователя.");
@@ -75,12 +75,10 @@ public class UserController {
 		}
 		return user;
 	}
-	
 	@GetMapping("/users")
 	public List<User> getUsers() {
 		return new ArrayList<>(users.values());
 	}
-	
 	private void userValidation(User user) {
 		if (user.getEmail().isEmpty() || user.getEmail().isBlank() || !user.getEmail().contains("@")
 				|| user.getEmail().contains(" ")) {
