@@ -15,12 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("checkstyle:Regexp")
 @RestController
 @Slf4j
 public class FilmController {
 	private final Map<Integer, Film> films = new HashMap<>();
 	private int id = 1;
-	
+
 	@PostMapping(value = "/films")
 	public Film addFilm(@Valid @RequestBody Film film) {
 		log.info("Получен запрос на добавление фильма.");
@@ -36,7 +37,7 @@ public class FilmController {
 		}
 		return film;
 	}
-	
+
 	@PutMapping(value = "/films")
 	public Film updateFilm(@Valid @RequestBody Film film) {
 		log.info("Получен запрос на обновление фильма.");
@@ -59,12 +60,12 @@ public class FilmController {
 		}
 		return film;
 	}
-	
+
 	@GetMapping(value = "/films")
 	public List<Film> getFilms() {
 		return new ArrayList<>(films.values());
 	}
-	
+
 	private void filmValidation(Film film) {
 		if (film.getName().isBlank() || film.getName().isEmpty()) {
 			throw new ValidationException("название не может быть пустым.");

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("checkstyle:Regexp")
 @RestController
 @Slf4j
 public class UserController {
@@ -48,7 +49,7 @@ public class UserController {
 		}
 		return user;
 	}
-	
+
 	@PutMapping(value = "/users")
 	public User updateUser(@RequestBody @Valid User user) {
 		log.info("Получен запрос на обновление данных пользователя.");
@@ -65,7 +66,6 @@ public class UserController {
 					user = user.toBuilder().name(user.getLogin()).build();
 				}
 				users.put(user.getId(), user);
-				
 				log.info("Данные пользователя {} были обновлены.", user.getLogin());
 			}
 		} catch (ValidationException e) {
@@ -77,12 +77,12 @@ public class UserController {
 		}
 		return user;
 	}
-	
+
 	@GetMapping("/users")
 	public List<User> getUsers() {
 		return new ArrayList<>(users.values());
 	}
-	
+
 	private void userValidation(User user) {
 		if (user.getEmail().isEmpty() || user.getEmail().isBlank() || !user.getEmail().contains("@")
 				|| user.getEmail().contains(" ")) {
