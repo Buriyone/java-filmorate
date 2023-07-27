@@ -15,13 +15,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("checkstyle:Regexp")
 @RestController
 @Slf4j
 public class UserController {
 	private final Map<Integer, User> users = new HashMap<>();
 	private int id = 1;
-	
+
 	@PostMapping(value = "/users")
 	public User addUser(@RequestBody @Valid User user) {
 		log.info("Получен запрос на регистрацию пользователя.");
