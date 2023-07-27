@@ -3,7 +3,7 @@ package develop.controller;
 import develop.exception.NotFoundException;
 import develop.exception.ValidationException;
 import develop.model.Film;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

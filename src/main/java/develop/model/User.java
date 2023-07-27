@@ -1,6 +1,6 @@
 package develop.model;
 
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
