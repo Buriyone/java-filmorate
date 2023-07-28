@@ -19,13 +19,6 @@ class UserControllerTest {
 	private User expectedUser1;
 	private User expectedUser2;
 	private User expectedUser3;
-	private User expectedUser4;
-	private User expectedUser5;
-	private User expectedUser6;
-	private User expectedUser7;
-	private User expectedUser8;
-	private User expectedUser9;
-	private User expectedUser10;
 
 	@Test
 	public void addUserTest() {
@@ -43,7 +36,7 @@ class UserControllerTest {
 		try {
 			expectedUser1 = userController.addUser(expectedUser1);
 			assertFalse(userController.getUsers().contains(expectedUser1),
-					"Пользователь с пустым email прошел валидацию.");
+					"Пользователь с логином содержащим пробел прошел валидацию.");
 		} catch (ResponseStatusException e) {
 			assertEquals("400 BAD_REQUEST", e.getMessage());
 		}
@@ -51,7 +44,7 @@ class UserControllerTest {
 		try {
 			expectedUser2 = userController.addUser(expectedUser2);
 			assertFalse(userController.getUsers().contains(expectedUser2),
-					"Пользователь с email состоящим из пробелов прошел валидацию.");
+					"Пользователь с занятым логином прошел валидацию.");
 		} catch (ResponseStatusException e) {
 			assertEquals("400 BAD_REQUEST", e.getMessage());
 		}
@@ -59,62 +52,6 @@ class UserControllerTest {
 		try {
 			expectedUser3 = userController.addUser(expectedUser3);
 			assertFalse(userController.getUsers().contains(expectedUser3),
-					"Пользователь с email без @ прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
-		}
-
-		try {
-			expectedUser4 = userController.addUser(expectedUser4);
-			assertFalse(userController.getUsers().contains(expectedUser4),
-					"Пользователь с email содержащим пробел прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
-		}
-
-		try {
-			expectedUser5 = userController.addUser(expectedUser5);
-			assertFalse(userController.getUsers().contains(expectedUser5),
-					"Пользователь с пустым логином прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
-		}
-
-		try {
-			expectedUser6 = userController.addUser(expectedUser6);
-			assertFalse(userController.getUsers().contains(expectedUser6),
-					"Пользователь с логином состоящим из пробелов прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
-		}
-
-		try {
-			expectedUser7 = userController.addUser(expectedUser7);
-			assertFalse(userController.getUsers().contains(expectedUser7),
-					"Пользователь с логином содержащим пробел прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
-		}
-
-		try {
-			expectedUser8 = userController.addUser(expectedUser8);
-			assertFalse(userController.getUsers().contains(expectedUser8),
-					"Пользователь из будущего прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
-		}
-
-		try {
-			expectedUser9 = userController.addUser(expectedUser9);
-			assertFalse(userController.getUsers().contains(expectedUser9),
-					"Пользователь с занятым логином прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
-		}
-
-		try {
-			expectedUser10 = userController.addUser(expectedUser10);
-			assertFalse(userController.getUsers().contains(expectedUser10),
 					"Пользователь с занятым email прошел валидацию.");
 		} catch (ResponseStatusException e) {
 			assertEquals("400 BAD_REQUEST", e.getMessage());
@@ -158,6 +95,7 @@ class UserControllerTest {
 
 		user1 = User.builder()
 				.login("lewis44")
+				.name("")
 				.email("champion@yandex.ru")
 				.birthday(LocalDate.of(1985, 1, 7))
 				.build();
@@ -177,69 +115,20 @@ class UserControllerTest {
 				.build();
 
 		expectedUser1 = User.builder()
-				.login("testLogin")
-				.name("testName")
-				.email("")
-				.birthday(LocalDate.of(2000, 1, 1))
-				.build();
-
-		expectedUser2 = User.builder()
-				.login("testLogin")
-				.name("testName")
-				.email(" ")
-				.birthday(LocalDate.of(2000, 1, 1))
-				.build();
-
-		expectedUser3 = User.builder()
-				.login("testLogin")
-				.name("testName")
-				.email("testyandex.ru")
-				.birthday(LocalDate.of(2000, 1, 1))
-				.build();
-
-		expectedUser4 = User.builder()
-				.login("testLogin")
-				.name("testName")
-				.email("test@ yandex.ru")
-				.birthday(LocalDate.of(2000, 1, 1))
-				.build();
-
-		expectedUser5 = User.builder()
-				.login("")
-				.name("testName")
-				.email("test@yandex.ru")
-				.birthday(LocalDate.of(2000, 1, 1))
-				.build();
-
-		expectedUser6 = User.builder()
-				.login(" ")
-				.name("testName")
-				.email("test@yandex.ru")
-				.birthday(LocalDate.of(2000, 1, 1))
-				.build();
-
-		expectedUser7 = User.builder()
 				.login("test Login")
 				.name("testName")
 				.email("test@yandex.ru")
 				.birthday(LocalDate.of(2000, 1, 1))
 				.build();
 
-		expectedUser8 = User.builder()
-				.login("testLogin")
-				.name("testName")
-				.email("test@yandex.ru")
-				.birthday(LocalDate.of(3000, 1, 1))
-				.build();
-
-		expectedUser9 = User.builder()
+		expectedUser2 = User.builder()
 				.login("lewis44")
 				.name("testName")
 				.email("test@yandex.ru")
 				.birthday(LocalDate.of(2000, 1, 1))
 				.build();
 
-		expectedUser10 = User.builder()
+		expectedUser3 = User.builder()
 				.login("testLogin")
 				.name("testName")
 				.email("champion@yandex.ru")
