@@ -13,14 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class ServiceUser implements ServiceUserInterface {
+public class ServiceUser {
     private final Map<Integer, User> users = new HashMap<>();
     private int id = 1;
 
-    @Override
     public User add(User user) {
         try {
-            userValidation(user);
             for (User u : users.values()) {
                 if (u.getLogin().equals(user.getLogin())) {
                     throw new ValidationException("пользователь с таким логином уже зарегистрирован.");
@@ -28,7 +26,7 @@ public class ServiceUser implements ServiceUserInterface {
                     throw new ValidationException("пользователь с таким email уже зарегистрирован.");
                 }
             }
-            if (user.getName() == null || user.getName().isEmpty()) {
+            if (user.getName() == null || user.getName().isBlank()) {
                 log.debug("Пользователь {} не указал имя при регистрации.", user.getLogin());
                 log.info("Имя пользователя {} будет изменено на логин", user.getLogin());
                 user.setName(user.getLogin());
@@ -44,16 +42,14 @@ public class ServiceUser implements ServiceUserInterface {
         return user;
     }
 
-    @Override
     public User update(User user) {
         try {
-            userValidation(user);
             if (user.getId() == 0) {
                 throw new NotFoundException("пользователь не зарегистрирован.");
             } else if (!users.containsKey(user.getId())) {
                 throw new NotFoundException("пользователь не найден.");
             } else {
-                if (user.getName().isEmpty()) {
+                if (user.getName() == null || user.getName().isBlank()) {
                     log.debug("Пользователь {} скрыл имя.", user.getLogin());
                     log.info("Имя пользователя {} будет изменено на логин", user.getLogin());
                     user.setName(user.getLogin());
@@ -71,14 +67,7 @@ public class ServiceUser implements ServiceUserInterface {
         return user;
     }
 
-    @Override
     public List<User> get() {
         return new ArrayList<>(users.values());
-    }
-
-    private void userValidation(User user) {
-        if (user.getLogin().contains(" ")) {
-            throw new ValidationException("логин не должен содержать пробелы.");
-        }
     }
 }

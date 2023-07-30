@@ -10,15 +10,13 @@ import java.time.LocalDate;
 @Data
 @Builder(toBuilder = true)
 public class User {
-	@NotNull(message = "Ошибка валидации. Причина: логин должен быть объявлен.")
-	@NotEmpty(message = "Ошибка валидации. Причина: логин не может быть пустым.")
+	@NotBlank(message = "Ошибка валидации. Причина: логин не может быть пустым или содержать пробелы.")
+	@Pattern(regexp = "\\S*", message = "Ошибка валидации. Причина: логин не должен содержать пробелы.")
 	private String login;
 	private String name;
-	@NotNull(message = "Ошибка валидации. Причина: электронная почта должна быть объявлена.")
-	@NotEmpty(message = "Ошибка валидации. Причина: электронная почта должна быть заполнена.")
+	@NotBlank(message = "Ошибка валидации. Причина: электронная почта не может быть пустой.")
 	@Email(message = "некорректный email.")
 	private String email;
-	@NotNull(message = "Ошибка валидации. Причина: дата рождения должна быть объявлена.")
 	@PastOrPresent(message = "Ошибка валидации. Причина: дата рождения не может быть в будущем.")
 	private LocalDate birthday;
 	private int id;

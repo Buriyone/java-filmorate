@@ -14,11 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class ServiceFilm implements ServiceFilmInterface {
+public class ServiceFilm {
     private final Map<Integer, Film> films = new HashMap<>();
     private int id = 1;
 
-    @Override
     public Film add(Film film) {
         try {
             filmValidation(film);
@@ -33,7 +32,6 @@ public class ServiceFilm implements ServiceFilmInterface {
         return film;
     }
 
-    @Override
     public Film update(Film film) {
         try {
             filmValidation(film);
@@ -55,13 +53,13 @@ public class ServiceFilm implements ServiceFilmInterface {
         return film;
     }
 
-    @Override
     public List<Film> get() {
         return new ArrayList<>(films.values());
     }
 
     private void filmValidation(Film film) {
-        if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
+        if (film.getReleaseDate() != null
+                && film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             throw new ValidationException("дата релиза — не раньше 28 декабря 1895 года.");
         }
     }

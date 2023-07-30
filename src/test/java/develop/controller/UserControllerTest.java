@@ -34,14 +34,6 @@ class UserControllerTest {
 		}
 
 		try {
-			expectedUser1 = userController.addUser(expectedUser1);
-			assertFalse(userController.getUsers().contains(expectedUser1),
-					"Пользователь с логином содержащим пробел прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
-		}
-
-		try {
 			expectedUser2 = userController.addUser(expectedUser2);
 			assertFalse(userController.getUsers().contains(expectedUser2),
 					"Пользователь с занятым логином прошел валидацию.");

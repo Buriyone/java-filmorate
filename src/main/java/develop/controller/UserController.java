@@ -14,6 +14,9 @@ import java.util.List;
 public class UserController {
 	private final ServiceUser service = new ServiceUser();
 
+	public UserController() {
+	}
+
 	@PostMapping(value = "/users")
 	public User addUser(@RequestBody @Valid User user) {
 		log.info("Получен запрос на регистрацию пользователя.");
