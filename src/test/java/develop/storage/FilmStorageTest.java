@@ -1,6 +1,10 @@
-package develop.controller;
+package develop.storage;
 
+import develop.exception.NotFoundException;
+import develop.exception.ValidationException;
 import develop.model.Film;
+import develop.storage.film.FilmStorage;
+import develop.storage.film.InMemoryFilmStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,60 +15,61 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FilmControllerTest {
-	private FilmController filmController;
+class FilmStorageTest {
+	//private filmStorage filmStorage;
+	private FilmStorage filmStorage;
 	private Film film1;
 	private Film film2;
 	private Film film3;
 	private Film expectedFilm3;
 
 	@Test
-	public void addFilmTest() {
-		assertTrue(filmController.getFilms().contains(film1), "Фильм 1 не был добавлен.");
-		assertTrue(filmController.getFilms().contains(film2), "Фильм 2 не был добавлен.");
-		assertTrue(filmController.getFilms().contains(film3), "Фильм 3 не был добавлен.");
+	public void addTest() {
+		assertTrue(filmStorage.get().contains(film1), "Фильм 1 не был добавлен.");
+		assertTrue(filmStorage.get().contains(film2), "Фильм 2 не был добавлен.");
+		assertTrue(filmStorage.get().contains(film3), "Фильм 3 не был добавлен.");
 		try {
-			filmController.addFilm(expectedFilm3);
-			assertFalse(filmController.getFilms().contains(expectedFilm3),
+			filmStorage.add(expectedFilm3);
+			assertFalse(filmStorage.get().contains(expectedFilm3),
 					"Фильм с неверной датой прошел валидацию.");
-		} catch (ResponseStatusException e) {
-			assertEquals("400 BAD_REQUEST", e.getMessage());
+		} catch (ValidationException e) {
+			assertEquals("дата релиза — не раньше 28 декабря 1895 года.", e.getMessage());
 		}
 	}
 
 	@Test
-	public void updateFilmTest() {
+	public void updateTest() {
 		try {
 			film1.setId(0);
-			filmController.updateFilm(film1);
-			assertFalse(filmController.getFilms().contains(film1),
+			filmStorage.update(film1);
+			assertFalse(filmStorage.get().contains(film1),
 					"Фильм без id был обновлен.");
-		} catch (ResponseStatusException e) {
-			assertEquals("404 NOT_FOUND", e.getMessage());
+		} catch (NotFoundException e) {
+			assertEquals("необходимо добавить фильм в приложение.", e.getMessage());
 		}
 		try {
 			film1.setId(99);
-			filmController.updateFilm(film1);
-			assertFalse(filmController.getFilms().contains(film1),
+			filmStorage.update(film1);
+			assertFalse(filmStorage.get().contains(film1),
 					"Фильм с некорректным id был обновлен.");
-		} catch (ResponseStatusException e) {
-			assertEquals("404 NOT_FOUND", e.getMessage());
+		} catch (NotFoundException e) {
+			assertEquals("фильм c id: " + film1.getId() + "не обнаружен.", e.getMessage());
 		}
 	}
 
 	@Test
-	public void getFilmsTest() {
+	public void getTest() {
 		List<Film> testFilms = new ArrayList<>();
 		testFilms.add(film1);
 		testFilms.add(film2);
 		testFilms.add(film3);
-		assertNotNull(filmController.getFilms(), "Список фильмов не возвращается.");
-		assertEquals(testFilms, filmController.getFilms(), "Списки фильмов не идентичны.");
+		assertNotNull(filmStorage.get(), "Список фильмов не возвращается.");
+		assertEquals(testFilms, filmStorage.get(), "Списки фильмов не идентичны.");
 	}
 
 	@BeforeEach
 	public void start() {
-		filmController = new FilmController();
+		filmStorage = new InMemoryFilmStorage();
 
 		film1 = Film.builder()
 				.name("Snatch")
@@ -94,8 +99,8 @@ class FilmControllerTest {
 				.duration(123)
 				.build();
 
-		film1 = filmController.addFilm(film1);
-		film2 = filmController.addFilm(film2);
-		film3 = filmController.addFilm(film3);
+		film1 = filmStorage.add(film1);
+		film2 = filmStorage.add(film2);
+		film3 = filmStorage.add(film3);
 	}
 }

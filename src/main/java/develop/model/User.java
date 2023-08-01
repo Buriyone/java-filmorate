@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Builder(toBuilder = true)
@@ -20,4 +21,5 @@ public class User {
 	@PastOrPresent(message = "Ошибка валидации. Причина: дата рождения не может быть в будущем.")
 	private LocalDate birthday;
 	private int id;
+	private Set<Integer> friends;
 }
