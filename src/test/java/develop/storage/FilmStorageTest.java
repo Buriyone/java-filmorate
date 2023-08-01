@@ -7,7 +7,6 @@ import develop.storage.film.FilmStorage;
 import develop.storage.film.InMemoryFilmStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FilmStorageTest {
-	//private filmStorage filmStorage;
 	private FilmStorage filmStorage;
 	private Film film1;
 	private Film film2;
