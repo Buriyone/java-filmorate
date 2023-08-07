@@ -5,8 +5,8 @@ import develop.model.Film;
 import develop.model.User;
 import develop.storage.film.FilmStorage;
 import develop.storage.user.UserStorage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,15 +14,10 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FilmService {
-    FilmStorage filmStorage;
-    UserStorage userStorage;
-
-    @Autowired
-    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
-        this.filmStorage = filmStorage;
-        this.userStorage = userStorage;
-    }
+    public final FilmStorage filmStorage;
+    public final UserStorage userStorage;
 
     public Film addLike(int filmId, int userId) {
         Film film = filmStorage.getById(filmId);
@@ -64,6 +59,7 @@ public class FilmService {
                 likeCount--;
             }
         }
+        log.info("Рейтинг топовых фильмов предоставлен.");
         return topFilms;
     }
 }

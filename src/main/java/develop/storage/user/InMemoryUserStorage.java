@@ -16,18 +16,14 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User add(User user) {
-        for (User u : users.values()) {
-            if (u.getLogin().equals(user.getLogin())) {
+        for (User polledUser : users.values()) {
+            if (polledUser.getLogin().equals(user.getLogin())) {
                 throw new ValidationException("пользователь с таким логином уже зарегистрирован.");
-            } else if (u.getEmail().equals(user.getEmail())) {
+            } else if (polledUser.getEmail().equals(user.getEmail())) {
                 throw new ValidationException("пользователь с таким email уже зарегистрирован.");
             }
         }
-        if (user.getName() == null || user.getName().isBlank()) {
-            log.debug("Пользователь {} не указал имя при регистрации.", user.getLogin());
-            log.info("Имя пользователя {} будет изменено на логин", user.getLogin());
-            user.setName(user.getLogin());
-        }
+        user = checkName(user);
         user.setId(id);
         user.setFriends(new HashSet<>());
         users.put(id, user);
@@ -43,11 +39,7 @@ public class InMemoryUserStorage implements UserStorage {
         } else if (!users.containsKey(user.getId())) {
             throw new NotFoundException("пользователь не найден.");
         } else {
-            if (user.getName() == null || user.getName().isBlank()) {
-                log.debug("Пользователь {} скрыл имя.", user.getLogin());
-                log.info("Имя пользователя {} будет изменено на логин", user.getLogin());
-                user.setName(user.getLogin());
-            }
+            user = checkName(user);
             if (user.getFriends() == null) {
                 user.setFriends(new HashSet<>());
             }
@@ -60,6 +52,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User getById(int id) {
         if (users.containsKey(id)) {
+            log.info("Пользователь с id: " + id + " успешно предоставлен.");
             return users.get(id);
         } else {
             throw new NotFoundException("пользователь с id: " + id + " не зарегистрирован.");
@@ -68,6 +61,16 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public List<User> get() {
+        log.info("Список пользователей успешно предоставлен.");
         return new ArrayList<>(users.values());
+    }
+
+    public User checkName(User user) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            log.debug("Пользователь {} скрыл имя.", user.getLogin());
+            log.info("Имя пользователя {} будет изменено на логин", user.getLogin());
+            user.setName(user.getLogin());
+        }
+        return user;
     }
 }

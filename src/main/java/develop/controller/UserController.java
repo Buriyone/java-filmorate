@@ -5,24 +5,19 @@ import javax.validation.Valid;
 
 import develop.service.user.UserService;
 import develop.storage.user.UserStorage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-	public UserStorage userStorage;
-	public UserService userService;
-
-	@Autowired
-	public UserController(UserStorage userStorage, UserService userService) {
-		this.userStorage = userStorage;
-		this.userService = userService;
-	}
+	public final UserStorage userStorage;
+	public final UserService userService;
 
 	@PostMapping
 	public User addUser(@RequestBody @Valid User user) {
@@ -38,11 +33,13 @@ public class UserController {
 
 	@GetMapping
 	public List<User> getUsers() {
+		log.info("Получен запрос на предоставление списка пользователей.");
 		return userStorage.get();
 	}
 
 	@GetMapping("/{id}")
 	public User getUser(@PathVariable int id) {
+		log.info("Получен запрос на предоставление пользователя по id.");
 		return userStorage.getById(id);
 	}
 
@@ -60,11 +57,13 @@ public class UserController {
 
 	@GetMapping("{id}/friends")
 	public List<User> getFriends(@PathVariable int id) {
+		log.info("Получен запрос на предоставление списка друзей пользователя.");
 		return userService.getFriends(id);
 	}
 
 	@GetMapping("{id}/friends/common/{otherId}")
 	public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
+		log.info("Получен запрос на предоставление списка общих друзей.");
 		return userService.getCommonFriends(id, otherId);
 	}
 }
