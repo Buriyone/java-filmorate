@@ -15,7 +15,7 @@ import java.util.Objects;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
-    public final UserStorage userStorage;
+    private final UserStorage userStorage;
 
     public User addFriend(int userId, int friendId) {
         User user = userStorage.getById(userId);
@@ -47,7 +47,7 @@ public class UserService {
         for (Integer id : user.getFriends()) {
             friends.add(userStorage.getById(id));
         }
-        log.info("Список друзей пользователя: " + user.getLogin() + " успешно предоставлен.");
+        log.info("Список друзей пользователя: {} успешно предоставлен.", user.getLogin());
         return friends;
     }
 
@@ -62,8 +62,7 @@ public class UserService {
                 }
             }
         }
-        log.info("Список общих друзей пользователей " + user1.getLogin() + " и "
-                + user2.getLogin() + " успешно предоставлен.");
+        log.info("Список общих друзей пользователей {} и {} успешно предоставлен.", user1.getLogin(), user2.getLogin());
         return commonFriends;
     }
 }

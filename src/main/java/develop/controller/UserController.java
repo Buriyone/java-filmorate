@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-	public final UserStorage userStorage;
-	public final UserService userService;
+	private final UserStorage userStorage;
+	private final UserService userService;
 
 	@PostMapping
 	public User addUser(@RequestBody @Valid User user) {

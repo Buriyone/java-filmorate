@@ -52,7 +52,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User getById(int id) {
         if (users.containsKey(id)) {
-            log.info("Пользователь с id: " + id + " успешно предоставлен.");
+            log.info("Пользователь с id: {} успешно предоставлен.", id);
             return users.get(id);
         } else {
             throw new NotFoundException("пользователь с id: " + id + " не зарегистрирован.");

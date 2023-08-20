@@ -16,8 +16,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class FilmService {
-    public final FilmStorage filmStorage;
-    public final UserStorage userStorage;
+    private final FilmStorage filmStorage;
+    private final UserStorage userStorage;
 
     public Film addLike(int filmId, int userId) {
         Film film = filmStorage.getById(filmId);
