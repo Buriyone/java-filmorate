@@ -25,7 +25,6 @@ public class InMemoryUserStorage implements UserStorage {
         }
         user = checkName(user);
         user.setId(id);
-        user.setFriends(new HashSet<>());
         users.put(id, user);
         log.info("Пользователь {} успешно зарегистрирован с id: {}.", user.getLogin(), id);
         id++;
@@ -40,9 +39,6 @@ public class InMemoryUserStorage implements UserStorage {
             throw new NotFoundException("пользователь не найден.");
         } else {
             user = checkName(user);
-            if (user.getFriends() == null) {
-                user.setFriends(new HashSet<>());
-            }
             users.put(user.getId(), user);
             log.info("Данные пользователя {} были обновлены.", user.getLogin());
         }

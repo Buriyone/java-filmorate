@@ -19,7 +19,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Film add(Film film) {
         filmValidation(film);
         film.setId(id);
-        film.setUsersLike(new HashSet<>());
+        film.setGenres(new HashSet<>());
         films.put(id, film);
         log.info("Фильм {} успешно добавлен с id: {}.", film.getName(), id);
         id++;
@@ -34,8 +34,8 @@ public class InMemoryFilmStorage implements FilmStorage {
         } else if (!films.containsKey(film.getId())) {
             throw new NotFoundException("фильм c id: " + film.getId() + "не обнаружен.");
         } else {
-            if (film.getUsersLike() == null) {
-                film.setUsersLike(new HashSet<>());
+            if (film.getGenres() == null) {
+                film.setGenres(new HashSet<>());
             }
             films.put(film.getId(), film);
             log.info("Фильм {} успешно обновлен.", film.getName());
