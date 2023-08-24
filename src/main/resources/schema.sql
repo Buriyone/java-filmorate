@@ -65,3 +65,6 @@ CREATE TABLE IF NOT EXISTS films_genres (
   CONSTRAINT fg_fk_film_id FOREIGN KEY (film_id) REFERENCES film(id),
   CONSTRAINT fg_fk_genre_id FOREIGN KEY (genre_id) REFERENCES genres(id)
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS user_email_uindex ON users(email);
+CREATE UNIQUE INDEX IF NOT EXISTS user_login_uindex ON users(login);

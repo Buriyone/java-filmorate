@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 @Data
 @Builder(toBuilder = true)
@@ -22,7 +22,7 @@ public class Film {
 	@Positive(message = "Ошибка валидации. Причина: продолжительность фильма должна быть положительной.")
 	private int duration;
 	private int rate;
-	@NotNull(message = "Ошибка валидации. Причина: MPA не может быть пустым и состоять из пробелов.")
+	@NotNull(message = "Ошибка валидации. Причина: MPA не может отсутствовать.")
 	private Mpa mpa;
-	private Set<Genre> genres;
+	private LinkedHashSet<Genre> genres;
 }

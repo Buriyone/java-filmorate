@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,6 +25,36 @@ public class UserDbStorageTest {
         String jsonUser = "{\"login\":\"dolore\",\"name\":\"NickName\",\"email\":\"mail@mail.ru\"," +
                 "\"birthday\":\"1946-08-20\"}";
         this.mockMvc.perform(post("/users").content(jsonUser).contentType("application/json"));
+    }
+
+    @Test
+    public void userValidationTest() throws Exception {
+        String testJsonUser = "{\"login\":\"   \",\"name\":\"NickName\",\"email\":\"mail@mail.ru\"," +
+                "\"birthday\":\"1946-08-20\"}";
+        this.mockMvc.perform(post("/users").content(testJsonUser).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        testJsonUser = "{\"login\":\"dol ore\",\"name\":\"NickName\",\"email\":\"mail@mail.ru\"," +
+                "\"birthday\":\"1946-08-20\"}";
+        this.mockMvc.perform(post("/users").content(testJsonUser).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        testJsonUser = "{\"login\":\"dolore\",\"name\":\"NickName\",\"email\":\"\"," +
+                "\"birthday\":\"1946-08-20\"}";
+        this.mockMvc.perform(post("/users").content(testJsonUser).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        testJsonUser = "{\"login\":\"dolore\",\"name\":\"NickName\",\"email\":\"mailmail.ru@\"," +
+                "\"birthday\":\"1946-08-20\"}";
+        this.mockMvc.perform(post("/users").content(testJsonUser).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        LocalDate date = LocalDate.now().plusDays(1);
+        testJsonUser = "{\"login\":\"dolore\",\"name\":\"NickName\",\"email\":\"mail@mail.ru\"," +
+                "\"birthday\":\"" + date + "\"}";
+        this.mockMvc.perform(post("/users").content(testJsonUser).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
     }
 
     @Test

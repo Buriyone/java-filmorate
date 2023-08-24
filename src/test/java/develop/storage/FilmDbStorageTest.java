@@ -33,13 +33,51 @@ class FilmDbStorageTest {
     }
 
     @Test
+    public void filmValidationTest() throws Exception {
+        String testJsonFilm = "{\"name\":\"  \",\"releaseDate\":\"1999-04-30\"," +
+                "\"description\":\"Newfilmaboutfriends\",\"duration\":120,\"rate\":4," +
+                "\"mpa\":{\"id\":3},\"genres\":[{\"id\":1},{\"id\":2},{\"id\":1}]}";
+        this.mockMvc.perform(post("/films").content(testJsonFilm).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        testJsonFilm = "{\"releaseDate\":\"1999-04-30\"," +
+                "\"description\":\"Newfilmaboutfriends\",\"duration\":120,\"rate\":4," +
+                "\"mpa\":{\"id\":3},\"genres\":[{\"id\":1},{\"id\":2},{\"id\":1}]}";
+        this.mockMvc.perform(post("/films").content(testJsonFilm).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 200; i++) {
+            stringBuilder.append(i);
+        }
+        String bigDescription = stringBuilder.toString();
+        testJsonFilm = "{\"name\":\"Newfilm\",\"releaseDate\":\"1999-04-30\"," +
+                "\"description\":\"" + bigDescription + "\",\"duration\":120,\"rate\":4," +
+                "\"mpa\":{\"id\":3},\"genres\":[{\"id\":1},{\"id\":2},{\"id\":1}]}";
+        this.mockMvc.perform(post("/films").content(testJsonFilm).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        testJsonFilm = "{\"name\":\"Newfilm\",\"releaseDate\":\"1999-04-30\"," +
+                "\"description\":\"Newfilmaboutfriends\",\"duration\":-1,\"rate\":4," +
+                "\"mpa\":{\"id\":3},\"genres\":[{\"id\":1},{\"id\":2},{\"id\":1}]}";
+        this.mockMvc.perform(post("/films").content(testJsonFilm).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        testJsonFilm = "{\"name\":\"Newfilm\",\"releaseDate\":\"1999-04-30\"," +
+                "\"description\":\"Newfilmaboutfriends\",\"duration\":120,\"rate\":4," +
+                "\"genres\":[{\"id\":1},{\"id\":2},{\"id\":1}]}";
+        this.mockMvc.perform(post("/films").content(testJsonFilm).contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
     public void updateFilmTest() throws Exception {
         addFilm();
         String jsonFilm = "{\"id\":\"1\",\"name\":\"Newfrilm\",\"releaseDate\":\"1999-04-30\"," +
                 "\"description\":\"Newfilmaboutfriends\",\"duration\":120,\"rate\":4," +
                 "\"mpa\":{\"id\":3},\"genres\":[{\"id\":1},{\"id\":2}]}";
-        this.mockMvc.perform(put("/films")
-                        .content(jsonFilm).contentType("application/json"))
+        this.mockMvc.perform(put("/films").content(jsonFilm).contentType("application/json"))
                 .andExpect(status().isOk())
                 .andReturn();
         jsonFilm = "{\"id\":\"9999\",\"name\":\"Newfrilm\",\"releaseDate\":\"1999-04-30\"," +

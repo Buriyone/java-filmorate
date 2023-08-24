@@ -5,7 +5,6 @@ import develop.model.User;
 import develop.storage.user.UserStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,6 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Primary
 public class FriendDbStorage implements FriendStorage {
     private final JdbcTemplate jdbcTemplate;
     private final UserStorage userStorage;

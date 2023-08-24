@@ -8,7 +8,6 @@ import develop.storage.genre.GenreStorage;
 import develop.storage.mpa.MpaStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ import java.util.*;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Primary
 public class FilmDbStorage implements FilmStorage {
     private final JdbcTemplate jdbcTemplate;
     private final MpaStorage mpaStorage;
@@ -94,8 +92,8 @@ public class FilmDbStorage implements FilmStorage {
                     .duration(sqlRowSetById.getInt("duration"))
                     .rate(sqlRowSetById.getInt("rate"))
                     .mpa(mpaStorage.getById(sqlRowSetById.getInt("mpa_id")))
+                    .genres(new LinkedHashSet<>())
                     .build();
-            film.setGenres(new LinkedHashSet<>());
             SqlRowSet sqlRowSetByGenre = jdbcTemplate
                     .queryForRowSet("SELECT * FROM films_genres WHERE film_id = ? ORDER BY genre_id", id);
             while (sqlRowSetByGenre.next()) {
