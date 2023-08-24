@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class UserDbStorageTest {
     private final MockMvc mockMvc;
+
     private void addUser() throws Exception {
         String jsonUser = "{\"login\":\"dolore\",\"name\":\"NickName\",\"email\":\"mail@mail.ru\"," +
                 "\"birthday\":\"1946-08-20\"}";
@@ -30,7 +31,8 @@ public class UserDbStorageTest {
         String jsonUser = "{\"id\":\"1\",\"login\":\"dalaran\",\"name\":\"NickName\",\"email\":\"mail@mail.ru\"," +
                 "\"birthday\":\"1946-08-20\"}";
         this.mockMvc.perform(put("/users")
-                .content(jsonUser).contentType("application/json"))
+                        .content(jsonUser)
+                        .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andReturn();
         jsonUser = "{\"id\":\"99999\",\"login\":\"dalaran\",\"name\":\"NickName\",\"email\":\"mail@mail.ru\"," +
