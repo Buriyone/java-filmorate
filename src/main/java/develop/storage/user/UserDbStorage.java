@@ -36,7 +36,7 @@ public class UserDbStorage implements UserStorage {
             jdbcTemplate.update("INSERT INTO users (login, name, email, birthday) VALUES (?, ?, ?, ?);",
                     user.getLogin(), user.getName(), user.getEmail(), user.getBirthday());
             SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(sqlByLogin, user.getLogin());
-            if(sqlRowSet.next()) {
+            if (sqlRowSet.next()) {
                 user.setId(sqlRowSet.getInt("id"));
                 log.info("Пользователь {} успешно зарегистрирован с id: {}.",
                         user.getLogin(), sqlRowSet.getInt("id"));
