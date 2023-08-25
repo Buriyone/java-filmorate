@@ -44,15 +44,15 @@ public class FilmController {
 	}
 
 	@PutMapping("/{id}/like/{userId}")
-	public Film addLike(@PathVariable int id, @PathVariable int userId) {
+	public void addLike(@PathVariable int id, @PathVariable int userId) {
 		log.info("Получен запрос на оценку фильма.");
-		return filmService.addLike(id, userId);
+		filmService.addLike(id, userId);
 	}
 
 	@DeleteMapping("/{id}/like/{userId}")
-	public Film removeLike(@PathVariable int id, @PathVariable int userId) {
+	public void removeLike(@PathVariable int id, @PathVariable int userId) {
 		log.info("Получен запрос на удаление оценки фильма.");
-		return filmService.removeLike(id, userId);
+		filmService.removeLike(id, userId);
 	}
 
 	@GetMapping("/popular")
